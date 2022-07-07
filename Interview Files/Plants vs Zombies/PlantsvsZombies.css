@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: black;
+}
+#canvas1 {
+    border: 1px solid white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #444444;
+}
+:root {
+    --size: 30px;
+    --i: calc(var(--size))/15;
+}
+.energy {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    pointer-events: none;
+}
+.energy span {
+    position: absolute;
+    width: calc(var(--size) + var(--i));
+    height: calc(var(--size) + var(--i));
+    border-radius: 50%;
+    transform-origin: calc((var(--size)/3) + var(--i));
+    animation: animate 5s linear infinite;
+    mix-blend-mode: plus-lighter;
+    filter: blur(calc((var(--size)/10)));
+}
+.energy span:nth-child(1) {
+    background: #fbad04;
+    animation-duration: 3s;
+}
+.energy span:nth-child(2) {
+    background: #03a1d9;
+    animation-duration: 5s;
+}
+.energy span:nth-child(3) {
+    background: #f7036d;
+    animation-duration: 6s;
+}
+.energy span:nth-child(4) {
+    background: #93ff16;
+    animation-duration: 4s;
+}
+.energy span:nth-child(even) {
+    animation-direction: reverse;
+}
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

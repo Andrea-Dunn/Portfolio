@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="alert-container" id="alert-container">
+    </div>
+    <nav class="container">
+        <div class="game">
+            <header>
+                <h1 class="title">Wordle</h1>
+            </header>
+        </div>
+    </nav>
+    <div class="wrapper">
+
+        <div id="board-container">
+            <div id="board">
+            </div>
+        </div>
+        <div data-keybaord class="keyboard" id="keyboard">
+            <button class="key" data-key="Q">Q</button>
+            <button class="key" data-key="W">W</button>
+            <button class="key" data-key="E">E</button>
+            <button class="key" data-key="R">R</button>
+            <button class="key" data-key="T">T</button>
+            <button class="key" data-key="Y">Y</button>
+            <button class="key" data-key="U">U</button>
+            <button class="key" data-key="I">I</button>
+            <button class="key" data-key="O">O</button>
+            <button class="key" data-key="P">P</button>
+            <div class="key_space"></div>
+            <button class="key" data-key="A">A</button>
+            <button class="key" data-key="S">S</button>
+            <button class="key" data-key="D">D</button>
+            <button class="key" data-key="F">F</button>
+            <button class="key" data-key="G">G</button>
+            <button class="key" data-key="H">H</button>
+            <button class="key" data-key="J">J</button>
+            <button class="key" data-key="K">K</button>
+            <button class="key" data-key="L">L</button>
+            <div class="key_space"></div>
+            <button class="key_large" data-enter>Enter</button>
+            <button class="key" data-key="Z">Z</button>
+            <button class="key" data-key="X">X</button>
+            <button class="key" data-key="C">C</button>
+            <button class="key" data-key="V">V</button>
+            <button class="key" data-key="B">B</button>
+            <button class="key" data-key="N">N</button>
+            <button class="key" data-key="M">M</button>
+            <button class="key_large" data-delete>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path fill="var(--color-tone-1)" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="StatScreen" id="StatScreen">
+        <div class="statContainer">
+            <h1>Statistics</h1>
+            <div id="statistics">
+                <div class="statiscticContainer">
+                    <div class="statistic" id="totalplays"></div>
+                    <div class="label">Total <br> Played</div>
+                </div>
+                <div class="statiscticContainer">
+                    <div class="statistic" id="winPerc"></div>
+                    <div class="label">Win %</div>
+                </div>
+                <div class="statiscticContainer">
+                    <div class="statistic" id="currStreak"></div>
+                    <div class="label">Current <br> Streak</div>
+                </div>
+                <div class="statiscticContainer">
+                    <div class="statistic" id="maxStreak"></div>
+                    <div class="label">Max <br> Streak</div>
+                </div>
+            </div>
+            <h1 class="guessDistribution">GUESS DISTRIBUTION</h1>
+            <div class="graphContainer">
+                <div class="guess">1</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph1">
+                        <div class="numGuesses" id="numGuesses1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="graphContainer">
+                <div class="guess">2</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph2">
+                        <div class="numGuesses" id="numGuesses2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="graphContainer">
+                <div class="guess">3</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph3">
+                        <div class="numGuesses" id="numGuesses3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="graphContainer">
+                <div class="guess">4</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph4">
+                        <div class="numGuesses" id="numGuesses4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="graphContainer">
+                <div class="guess">5</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph5">
+                        <div class="numGuesses" id="numGuesses5"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="graphContainer">
+                <div class="guess">6</div>
+                <div class="graph">
+                    <div class="graphBar" id="graph6">
+                        <div class="numGuesses" id="numGuesses6"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="playAgain" id="playAgain">PLAY AGAIN</button>
+        </div>
+    </div>
+
+
+    <script src="DictionaryWords.js"></script>
+    <script src="TargetWords.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

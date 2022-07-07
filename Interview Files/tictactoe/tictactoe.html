@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+</head>
+
+<style>
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+:root {
+    --cell-size: 20vh;
+    --mark-size: calc(var(--cell-size) * 0.9);
+}
+
+.board {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+    background: conic-gradient(rgba(255, 0, 0, 0.9), rgba(255, 166, 0, 0.9), rgba(255, 255, 0, 0.9), rgba(0, 128, 0, 0.9), rgba(0, 0, 255, 0.9),rgba(255, 0, 0, 0.9));
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+
+/* BORDER */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+.cell:nth-child(3n + 1) {
+    border-left: none;
+}
+.cell:nth-child(3n + 3) {
+    border-right: none;
+}
+
+
+
+
+.cell.x,
+.cell.o {
+    cursor: not-allowed;
+}
+
+
+/* Xs */
+.cell.x::before,
+.cell.x::after, 
+.cell.o::before {
+    background-color: black;
+}
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after, 
+.board.o .cell:not(.x):not(.o):hover::before {
+    background-color: rgba(46, 46, 46, 0.8);
+    /* background-color: lightgrey; */
+    /* background-color: black;
+    opacity: 50%; */
+}
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::before, 
+.board.x .cell:not(.x):not(.o):hover::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--mark-size) * 0.15);
+    height: var(--mark-size);
+}
+.cell.x::before, 
+.board.x .cell:not(.x):not(.o):hover::before {
+    rotate: 45deg;
+}
+.cell.x::after, 
+.board.x .cell:not(.x):not(.o):hover::after {
+    transform: rotate(-45deg);
+}
+
+
+/* Os */
+/* .cell.o::before,
+.cell.o::after {
+    background-color: black;
+} */
+.cell.o::before,
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover::before, 
+.board.o .cell:not(.x):not(.o):hover::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+}
+
+.cell.o::before,
+.board.o .cell:not(.x):not(.o):hover::before {
+    width: calc(var(--mark-size) * .9);
+    height: calc(var(--mark-size) * .9);
+}
+
+.board.o .cell:not(.x):not(.o):hover::after {
+    width: calc(var(--mark-size) * .6);
+    height: calc(var(--mark-size) * .6);
+    background: conic-gradient(rgba(255, 0, 0, 0.5), rgba(255, 166, 0, 0.5), rgba(255, 255, 0, 0.5), rgba(0, 128, 0, 0.5), rgba(0, 0, 255, 0.5),rgba(255, 0, 0, 0.5));
+}
+
+.cell.o::after {
+    background: conic-gradient(rgb(255, 0, 0), rgba(255, 166, 0), rgba(255, 255, 0), rgba(0, 128, 0), rgba(0, 0, 255),rgba(255, 0, 0));
+    width: calc(var(--mark-size) * .6);
+    height: calc(var(--mark-size) * .6);
+}
+
+.winScreen {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* background-color: rgba(0, 0, 0, 0.9);
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgb(0, 0, 0)); */
+    /* try gradient : outsides are darker */
+    background: conic-gradient(rgba(255, 0, 0, 0.9), rgba(255, 166, 0, 0.9), rgba(255, 255, 0, 0.9), rgba(0, 128, 0, 0.9), rgba(0, 0, 255, 0.9),rgba(255, 0, 0, 0.9));
+    
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+    flex-direction: column;
+}
+.winScreen.show {
+    display: flex;
+}
+
+.winScreen button {
+    font-size: 1.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.winScreen button:hover {
+    background-color: black;
+    border-color: white;
+    color: white;
+}
+.backbtn {
+    /* background-color: black;
+    color: white;
+    
+    font-size: 2rem;
+    border-radius: 5px; */
+    margin-left: 0.3rem;
+    margin-top: 0.3rem;
+    position: fixed;
+    color: black;
+    font-size: 1.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+}
+.backbtn:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+
+
+
+</style>
+<body>
+<!-- <button id="backbtn" href="/products.html">BACK</button> -->
+<a href="/index.html" class="backbtn" >BACK</a>
+    <div class="board" id="board">
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+    </div>
+    <div class="winScreen" id="winScreen">
+        <div data-winScreen-text></div>
+        <button id="restartbtn">RESTART</button>
+    </div>
+    
+
+</body>
+<script>
+
+const X_Class = 'x';
+const O_Class = 'o';
+
+const allcells = document.querySelectorAll('[data-cell]');
+const board = document.getElementById('board');
+const restart = document.getElementById('restartbtn');
+const winScreen = document.getElementById('winScreen');
+let boardx
+const winning_combinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
+const winMessage = document.querySelector('[data-winScreen-text]')
+
+startgame()
+
+restart.addEventListener('click', startgame)
+
+function startgame (){
+    boardx = false
+    
+    allcells.forEach(cell => {
+        cell.classList.remove(X_Class)
+        cell.classList.remove(O_Class)
+        cell.addEventListener('click', click, { once: true })
+    });
+    
+    
+    allcells.forEach(cell => {
+        cell.addEventListener('click', click, { once: true } )
+    })
+    boardhover();
+    winScreen.classList.remove('show')
+
+}
+
+function click(e) {
+    const cell = e.target;
+    const turn = boardx ? O_Class : X_Class;
+    placeMark(cell, turn);
+    if (checkwin(turn)){
+        endgame(false)
+    } 
+    else if (isdraw()){
+        endgame(true)
+    }
+    else {
+        swapTurns();
+        boardhover();
+    }
+}
+
+function endgame(draw){
+    if (draw) {
+        winMessage.innerText = ('Draw!')
+    }
+    else {
+        winMessage.innerText = `${boardx ? "O's" : "X's"} Win!`
+    }
+    winScreen.classList.add('show')
+}
+
+function isdraw(){
+    return [...allcells].every(cell => {
+        return cell.classList.contains(X_Class)
+         || cell.classList.contains(O_Class)
+    })
+}
+
+function placeMark(cell, turn){
+    cell.classList.add(turn);
+}
+
+function swapTurns (){
+    boardx = !boardx
+}
+
+function boardhover (){
+    board.classList.remove(X_Class);
+    board.classList.remove(O_Class);
+    if (boardx) {
+        board.classList.add(O_Class);
+    }
+    else {
+        board.classList.add(X_Class);
+    }
+}
+
+function checkwin(turn){
+    return winning_combinations.some(combination => {
+        return combination.every(index => {
+            return allcells[index].classList.contains(turn)
+        })
+    })
+}
+// back = document.getElementById('backbtn')
+// back.addEventListener('click')
+
+
+
+
+
+
+
+
+
+
+
+
+//     if (boardx = true) {
+//         turn = document.getElementById('board');
+//         turn.classList.add('x');
+        
+
+//     }
+//     if (boardx = false) {
+//         bool = document.getElementById('board');
+//         bool.classList.remove('x');
+//     }
+// console.log(boardx)
+
+</script>
+</html>
