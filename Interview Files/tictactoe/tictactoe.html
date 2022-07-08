@@ -248,20 +248,14 @@ restart.addEventListener('click', startgame)
 
 function startgame (){
     boardx = false
-    
+
     allcells.forEach(cell => {
         cell.classList.remove(X_Class)
         cell.classList.remove(O_Class)
         cell.addEventListener('click', click, { once: true })
     });
-    
-    
-    allcells.forEach(cell => {
-        cell.addEventListener('click', click, { once: true } )
-    })
     boardhover();
     winScreen.classList.remove('show')
-
 }
 
 function click(e) {
